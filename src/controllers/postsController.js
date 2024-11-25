@@ -1,4 +1,4 @@
-import { getAllPosts, createPost } from "../models/postsModel.js";
+import { getAllPosts, createPost, updatePost } from "../models/postsModel.js";
 import fs from "fs";
 
 export async function listPosts(req, res) {
@@ -28,6 +28,23 @@ export async function uploadImage(req, res) {
         const createdPost = await createPost(newPost);
         const updatedImage = `uploads/${createdPost.insertedId}.png`;
         fs.renameSync(req.file.path, updatedImage);
+        res.status(200).json(createdPost);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ Error: "Request failed" });
+    }
+}
+
+export async function updateNewPost(req, res) {
+    const id = req.params.id;
+    const urlImage = `http://localhost:3000/${id}.png`;
+    const post = {
+        imgUrl: urlImage,
+        descricao: req.body.descricao,
+        alt: req.body.alt,
+    };
+    try {
+        const createdPost = await updatePost(id, post);
         res.status(200).json(createdPost);
     } catch (error) {
         console.error(error.message);

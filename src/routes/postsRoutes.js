@@ -4,6 +4,7 @@ import {
     listPosts,
     createNewPost,
     uploadImage,
+    updateNewPost,
 } from "../controllers/postsController.js";
 
 // configuração do multer para windows
@@ -24,6 +25,7 @@ const routes = (app) => {
     app.get("/posts", listPosts);
     app.post("/posts", createNewPost);
     app.post("/upload", upload.single("image"), uploadImage);
+    app.put("/upload/:id", updateNewPost);
 };
 
 export default routes;
