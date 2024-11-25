@@ -12,3 +12,9 @@ export async function getAllPosts() {
     // Busca todos os documentos da coleção e retorna como um array
     return collection.find().toArray();
 }
+
+export async function createPost(newPost) {
+    const db = connection.db("imersao-instalike");
+    const collection = db.collection("posts");
+    return collection.insertOne(newPost)
+}
